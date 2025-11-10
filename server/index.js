@@ -22,33 +22,52 @@ mongoose.connect(MONGODB_URI)
 app.get('/get', (req, res) => {
     TodoModel.find()
     .then(result => res.json(result))
-    .catch(err => res.json(err))
+    .catch(err => {
+        console.error('Error fetching todos:', err);
+        res.status(500).json({ error: 'Failed to fetch todos' });
+    })
 })
 
 app.put('/update/:id',(req, res) => {
     const{id} = req.params;
     TodoModel.findById(id)
     .then(todo => {
+        if (!todo) {
+            return res.status(404).json({ error: 'Todo not found' });
+        }
         todo.done = !todo.done;
         return todo.save();
     })
     .then(result => res.json(result))
-    .catch(err => res.json(err))
+    .catch(err => {
+        console.error('Error updating todo:', err);
+        res.status(500).json({ error: 'Failed to update todo' });
+    })
 } )
 
 app.delete('/delete/:id', (req, res) => {
     const {id} = req.params;
     TodoModel.findByIdAndDelete({_id: id})
     .then(result => res.json(result))
-    .catch(err => res.json(err))
+    .catch(err => {
+        console.error('Error deleting todo:', err);
+        res.status(500).json({ error: 'Failed to delete todo' });
+    })
 })
 
 app.post('/add', (req, res) => {
   const task = req.body.task
+  if (!task) {
+    return res.status(400).json({ error: 'Task is required' });
+  }
   TodoModel.create({
-    task: task
+    task: task,
+    done: false
   }).then(result => res.json(result))
-  .catch(err => res.json(err))
+  .catch(err => {
+    console.error('Error adding todo:', err);
+    res.status(500).json({ error: 'Failed to add todo' });
+  })
 })
 
 app.listen(PORT, () => {
