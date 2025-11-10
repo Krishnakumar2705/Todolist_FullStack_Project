@@ -12,14 +12,10 @@ app.use(cors({
 app.use(express.json())
 
 const PORT = process.env.PORT || 3001
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo'
+const MONGODB_URI = process.env.MONGODB_URI  
 
 console.log('Connecting to MongoDB...')
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000
-})
+mongoose.connect(MONGODB_URI)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => {
     console.error('MongoDB connection error:', err);
@@ -35,7 +31,7 @@ app.get('/get', (req, res) => {
     })
 })
 
-app.put('/update/:id',(req, res) => {
+app.post('/update/:id',(req, res) => {
     const{id} = req.params;
     TodoModel.findById(id)
     .then(todo => {
