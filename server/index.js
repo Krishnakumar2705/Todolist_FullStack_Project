@@ -24,7 +24,7 @@ mongoose.connect(MONGODB_URI)
 
 app.get('/get', (req, res) => {
     TodoModel.find()
-    .then(result => res.json(result))
+    .then(result => res.status(200).json(result))
     .catch(err => {
         console.error('Error fetching todos:', err);
         res.status(500).json({ error: 'Failed to fetch todos' });
@@ -51,7 +51,7 @@ app.post('/update/:id',(req, res) => {
 app.delete('/delete/:id', (req, res) => {
     const {id} = req.params;
     TodoModel.findByIdAndDelete({_id: id})
-    .then(result => res.json(result))
+    .then(result => res.status(200).json(result))
     .catch(err => {
         console.error('Error deleting todo:', err);
         res.status(500).json({ error: 'Failed to delete todo' });
