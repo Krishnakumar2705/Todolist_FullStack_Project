@@ -15,9 +15,16 @@ const PORT = process.env.PORT || 3001
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo'
 
 console.log('Connecting to MongoDB...')
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000
+})
   .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection error:', err))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  })
 
 app.get('/get', (req, res) => {
     TodoModel.find()
