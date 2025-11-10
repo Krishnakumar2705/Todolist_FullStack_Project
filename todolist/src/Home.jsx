@@ -6,10 +6,11 @@ import { BsTrash } from "react-icons/bs";
 
 function Home() {
   const [todos, setTodos] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
   const fetchTodos = () => {
     axios
-      .get("http://localhost:3001/get")
+      .get(`${API_URL}/get`)
       .then((result) => setTodos(result.data))
       .catch((err) => console.log(err));
   };
@@ -20,7 +21,7 @@ function Home() {
 
   const handleEdit = (id) => {
     axios
-      .put("http://localhost:3001/update/" + id)
+      .put(`${API_URL}/update/${id}`)
       .then((result) => {
         fetchTodos();
       })
@@ -29,7 +30,7 @@ function Home() {
 
   const handleDelete = (id) => {
     axios
-      .delete("http://localhost:3001/delete/" + id)
+      .delete(`${API_URL}/delete/${id}`)
       .then((result) => {
         console.log(result);
         fetchTodos();

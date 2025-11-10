@@ -4,9 +4,11 @@ import axios from 'axios';
 
 function Create({ onTaskAdded }) {
   const [task, setTask] = useState('')
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  
   const handleAdd = () =>{
     if (!task) return;
-    axios.post('http://localhost:3001/add', {task: task})
+    axios.post(`${API_URL}/add`, {task: task})
     .then(result => {
       console.log(result);
       setTask('');

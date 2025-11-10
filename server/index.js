@@ -2,12 +2,16 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const TodoModel = require('./Models/Todo')
+require('dotenv').config()
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect('mongodb://localhost:27017/todo')
+const PORT = process.env.PORT || 3001
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo'
+
+mongoose.connect(MONGODB_URI)
 
 app.get('/get', (req, res) => {
     TodoModel.find()
@@ -41,6 +45,6 @@ app.post('/add', (req, res) => {
   .catch(err => res.json(err))
 })
 
-app.listen(3001, () => {
-  console.log("Server is Running")
+app.listen(PORT, () => {
+  console.log(`Server is Running on port ${PORT}`)
 })
