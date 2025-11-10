@@ -11,8 +11,19 @@ function Home() {
   const fetchTodos = () => {
     axios
       .get(`${API_URL}/get`)
-      .then((result) => setTodos(result.data))
-      .catch((err) => console.log(err));
+      .then((result) => {
+        console.log('Fetched todos:', result.data);
+        if (Array.isArray(result.data)) {
+          setTodos(result.data);
+        } else {
+          console.error('Expected array but got:', result.data);
+          setTodos([]);
+        }
+      })
+      .catch((err) => {
+        console.error('Error fetching todos:', err);
+        setTodos([]);
+      });
   };
 
   useEffect(() => {
