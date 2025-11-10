@@ -6,12 +6,12 @@ import { BsTrash } from "react-icons/bs";
 
 function Home() {
   const [todos, setTodos] = useState([]);
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const API_URL = import.meta.env.BACKEND_URL;
 
   const fetchTodos = () => {
     axios
       .get(`${API_URL}/get`)
-      .then((result) => {
+      .then((result) => { console.log(result)
         console.log('Fetched todos:', result.data);
         if (Array.isArray(result.data)) {
           setTodos(result.data);
