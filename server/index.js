@@ -11,7 +11,10 @@ app.use(express.json())
 const PORT = process.env.PORT || 3001
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo'
 
+console.log('Connecting to MongoDB...')
 mongoose.connect(MONGODB_URI)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err))
 
 app.get('/get', (req, res) => {
     TodoModel.find()
