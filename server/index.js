@@ -5,7 +5,10 @@ const TodoModel = require('./Models/Todo')
 require('dotenv').config()
 
 const app = express()
-app.use(cors())
+app.use(cors({
+  origin: ['https://todolist-frontend-tbry.onrender.com', 'http://localhost:5173'],
+  credentials: true
+}))
 app.use(express.json())
 
 const PORT = process.env.PORT || 3001
