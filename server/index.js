@@ -66,7 +66,8 @@ app.post('/add', (req, res) => {
   TodoModel.create({
     task: task,
     done: false
-  }).then(result => res.json(result))
+  }).then(result => res.status(200).json(
+    { message:"todolist created", body:result}))
   .catch(err => {
     console.error('Error adding todo:', err);
     res.status(500).json({ error: 'Failed to add todo' });
